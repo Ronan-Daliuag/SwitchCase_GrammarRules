@@ -17,8 +17,19 @@ public class SwitchCaseValidation {
         if (forCheck.toLowerCase().equals("switch(")) {
             System.out.println("GOODS SA switch");
 
-            int pointer = 8;
+            //Checking the <var> inside the () of switch() is empty or not
+            int pointer = 7;
+            if(input.charAt(pointer) == ')') {
+                System.out.println("<var> can be empty");
+                System.exit(0);
+            }
+ 
             for (int i = pointer; i < input.length(); i++) {
+
+                //Increasing the pointer by the number of characters <var> has
+                if(input.charAt(i) != ')') {
+                    continue;
+                }
 
                 if (input.charAt(i) == ')' && input.charAt(i + 1) == '{') {
                     System.out.println("goods sa ){");
