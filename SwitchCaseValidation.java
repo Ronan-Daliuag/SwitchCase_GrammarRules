@@ -7,7 +7,8 @@ public class SwitchCaseValidation {
          * System.out.println("Enter Input: ");
          * String iinput = sc.nextLine();
          */
-
+        // TODO function: add checking for break statements. Print out whether there is a break statement before cases
+        // TODO function: checking for default, recognize whether default block is present
         String input = "switch(test){case 1: System.out.println(\"1\"); \n break;\n}";
         System.out.println("Input: " + input);
 
