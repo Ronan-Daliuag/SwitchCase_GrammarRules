@@ -109,11 +109,27 @@ public class SwitchCaseValidation {
         return true;
     }
 
-    public static boolean defaultChecker(String input) {
-        return false;
-    }
-
-    public static boolean endingCurlyBraceChecker(String input) {
+    public static boolean defaultAndEndingCurlyBraceChecker(String input) {
+        String findDefault = "default:";
+        int defaultFinder = (int) Pattern.compile(findDefault).matcher(input).results().count();
+        if (defaultFinder == 0){
+            System.out.println("WARNING: The input does not have a default code block." +
+                    "The code will still run.");
+            for (int i = 0; i < input.length(); i++){
+                if (input.charAt(i) == '}'){
+                    System.out.println("Ending curly brace found!");
+                    return true;
+                }
+            }
+        }
+        int defaultOccurence = input.indexOf("default:", 0);
+        for (int i = defaultOccurence; i < input.length(); i++){
+            if (input.charAt(i) == '}'){
+                System.out.println("Ending curly brace found!");
+                return true;
+            }
+        }
+        System.out.println("Ending curly brace not found!");
         return false;
     }
 
@@ -122,35 +138,32 @@ public class SwitchCaseValidation {
                 "case 'b': System.out.println(\"2\"); \n break;\n" +
                 "case 'c': System.out.println(\"3\"); \n break;\n" +
                 "case 'd': System.out.println(\"4\"); \n break;\n}";
-//        System.out.println("Input: " + input);
-//        if (switchChecker(input))
-//            System.out.println("The input has the switch keyword");
-//        else {
-//            System.out.println("The input is an invalid switch statement");
-//            System.exit(0);
-//        }
-//        if (switchVariableChecker(input))
-//            System.out.println("The input has a valid <var> argument");
-//        else {
-//            System.out.println("The input is an invalid switch statement");
-//            System.exit(0);
-//        }
-
+        System.out.println("Input: " + input);
+        if (switchChecker(input))
+            System.out.println("The input has the switch keyword");
+        else {
+            System.out.println("The input is an invalid switch statement");
+            System.exit(0);
+        }
+        if (switchVariableChecker(input))
+            System.out.println("The input has a valid <var> argument");
+        else {
+            System.out.println("The input is an invalid switch statement");
+            System.exit(0);
+        }
         if (caseAndBreakChecker(input))
             System.out.println("The input has a valid cases syntax");
         else {
             System.out.println("The input is an invalid switch statement");
             System.exit(0);
         }
-//        if (defaultChecker(input))
-//            System.out.println("The input has a default code block");
-//
-//        if (endingCurlyBraceChecker(input))
-//            System.out.println("The input has an ending curly brace.");
-//        else {
-//            System.out.println("The input is an invalid switch statement");
-//            System.exit(0);
-//        }
+        if (defaultAndEndingCurlyBraceChecker(input))
+            System.out.println("The input has an ending curly brace");
+        else{
+            System.out.println("The input is an invalid switch statement");
+            System.exit(0);
+        }
+
 
 
 //        String forCheck = "" + input.charAt(0) + input.charAt(1) + input.charAt(2) +
