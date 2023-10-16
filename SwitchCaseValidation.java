@@ -6,11 +6,14 @@ public class SwitchCaseValidation {
     public static boolean switchChecker(String input){
         String switchFinder = "";
         for (int i = 0; i<input.length(); i++){
-            if (switchFinder.equals("switch"))
+            if (switchFinder.equals("switch")){
+                System.out.println("Switch keyword found!");
                 return true;
+            }
             else
                 switchFinder = switchFinder + input.charAt(i);
         }
+        System.out.println("Switch keyword not found!");
         return false;
     }
 //    Method to check the variable inside the switch()
@@ -25,12 +28,15 @@ public class SwitchCaseValidation {
                 break;
             }
             if (input.charAt(i) == ')'){
+                System.out.println("No opening parenthesis found for <var>!");
                 return false; // no opening parenthesis found before closing
             }
         }
 //        Loop that starts from the index of the first parenthesis after the switch keyword
-        if (firstParenthesis == 0)
+        if (firstParenthesis == 0) {
+            System.out.println("No opening parenthesis found for <var>!");
             return false; // no opening parenthesis
+        }
         for (int i = firstParenthesis; i < input.length();i++) {
             if (input.charAt(i) == ')'){
                 break;
@@ -38,21 +44,27 @@ public class SwitchCaseValidation {
             switchVariableFinder = switchVariableFinder + input.charAt(i);
         }
 //        if the <var> is just whitespace or is null
-        if (switchVariableFinder.isBlank())
+        if (switchVariableFinder.isBlank()) {
+            System.out.println("No arguments found for switch!");
             return false; //no variable found in argument
-        System.out.println(switchVariableFinder);
+        }
 //      if the <var> has illegal characters inside parenthesis
 //      TODO: add more illegal characters, functions inside parenthesis?
         if (!switchVariableFinder.isBlank()){
             for (int i = 0; i < switchVariableFinder.length(); i++){
                 if (switchVariableFinder.charAt(i) == '{' || switchVariableFinder.charAt(i) == '}'
-                        || switchVariableFinder.charAt(i) == '(' || switchVariableFinder.charAt(i) == ')')
+                        || switchVariableFinder.charAt(i) == '(' || switchVariableFinder.charAt(i) == ')') {
+                    System.out.println("Illegal characters for <var>!");
                     return false; // illegal character found
+                }
             }
+            System.out.println("Valid <var> argument!");
             return true; // valid variable argument
         }
+        System.out.println("No closing parenthesis found for <var>!");
         return false; //<var> most likely does not have a closing parenthesis to the opening parenthesis
     }
+
     //TODO: implement these methods
     public static boolean curlyBraceChecker (String input){
         return false;
@@ -69,11 +81,10 @@ public class SwitchCaseValidation {
     public static void main(String[] args) {
         String input = "switch(test){case 1: System.out.println(\"1\"); \n break;\n}";
         System.out.println("Input: " + input);
-        if (!switchVariableChecker(input))
-            System.out.println("Invalid switch variable");
         if (switchChecker(input) && switchVariableChecker(input))
             System.out.println("The input is a valid switch statement");
-
+        else
+            System.out.println("The input is an invalid switch statement");
 //        String forCheck = "" + input.charAt(0) + input.charAt(1) + input.charAt(2) +
 //                input.charAt(3) + input.charAt(4) + input.charAt(5) + input.charAt(6);
 //
