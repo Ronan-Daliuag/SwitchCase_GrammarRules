@@ -24,7 +24,7 @@ public class SwitchCaseValidation {
         int firstParenthesis = 0;
         for (int i = 0; i < input.length(); i++){
             if (input.charAt(i) == '('){
-                firstParenthesis = i + 1; //does not include the opening parenthesis
+                firstParenthesis = i + 1;
                 break;
             }
             if (input.charAt(i) == ')'){
@@ -33,36 +33,45 @@ public class SwitchCaseValidation {
             }
         }
 //        Loop that starts from the index of the first parenthesis after the switch keyword
-        if (firstParenthesis == 0) {
-            System.out.println("No opening parenthesis found for <var>!");
-            return false; // no opening parenthesis
-        }
         for (int i = firstParenthesis; i < input.length();i++) {
-            if (input.charAt(i) == ')'){
+            if (input.charAt(i) == '{'){
+                switchVariableFinder = switchVariableFinder + input.charAt(i);
                 break;
             }
-            switchVariableFinder = switchVariableFinder + input.charAt(i);
+            else
+                switchVariableFinder = switchVariableFinder + input.charAt(i);
         }
+        System.out.println(switchVariableFinder);
+
 //        if the <var> is just whitespace or is null
-        if (switchVariableFinder.isBlank()) {
+        if (switchVariableFinder.charAt(0) == ')') {
             System.out.println("No arguments found for switch!");
             return false; //no variable found in argument
         }
+
 //      if the <var> has illegal characters inside parenthesis
 //      TODO: add more illegal characters, functions inside parenthesis?
         if (!switchVariableFinder.isBlank()){
-            for (int i = 0; i < switchVariableFinder.length(); i++){
+            int closingParenthesisCounter = 0;
+            for (int i = 0; i < switchVariableFinder.length()-1; i++) { // to not include the starting curly brace
                 if (switchVariableFinder.charAt(i) == '{' || switchVariableFinder.charAt(i) == '}'
-                        || switchVariableFinder.charAt(i) == '(' || switchVariableFinder.charAt(i) == ')') {
+                        || switchVariableFinder.charAt(i) == '(') {
                     System.out.println("Illegal characters for <var>!");
                     return false; // illegal character found
                 }
+                if (switchVariableFinder.charAt(i) == ')'){
+                    closingParenthesisCounter++;
+                }
+            }
+            if (closingParenthesisCounter > 1){
+                System.out.println("Too many closing parenthesis!");
+                return false; // valid variable argument
             }
             System.out.println("Valid <var> argument!");
             return true; // valid variable argument
         }
         System.out.println("No closing parenthesis found for <var>!");
-        return false; //<var> most likely does not have a closing parenthesis to the opening parenthesis
+        return false; //default return statement
     }
 
     //TODO: implement these methods
