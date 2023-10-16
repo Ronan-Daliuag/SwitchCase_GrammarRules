@@ -72,21 +72,23 @@ public class SwitchCaseValidation {
     }
 
     public static boolean checkCaseWord(String input) {
+        boolean caseChecker = true;
         String caseFinder = "";
         for (int i = 0; i < input.length(); i++) {
-            if (caseFinder.contains("case")) {
-                return true;
+            if (caseFinder.contains("break")) {
+                if (caseFinder.contains("case")) {
+                    caseFinder = "";
+                } else caseChecker = false;
             } else
                 caseFinder = caseFinder + input.charAt(i);
         }
-        System.out.println("Case keyword not found!");
-        return false;
+        return caseChecker;
     }
 
     // TODO: implement these methods
     // Method to check for correct case syntax and break statements
     public static boolean caseAndBreakChecker(String input) {
-        if(!checkCaseWord(input)){
+        if (checkCaseWord(input) == false) {
             return false;
         }
         String findCase = "case";
