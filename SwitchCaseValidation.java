@@ -1,6 +1,4 @@
-import java.util.Scanner;
 import java.util.regex.Pattern;
-
 public class SwitchCaseValidation {
     // Method to check for switch reserved word. Returns true if there is an
     // instance of the word
@@ -48,7 +46,6 @@ public class SwitchCaseValidation {
             return false;
         }
 
-        // TODO: add more illegal characters, functions inside parenthesis?
         if (!switchVariableFinder.isBlank()) {
             int closingParenthesisCounter = 0;
             for (int i = 0; i < switchVariableFinder.length() - 1; i++) { // to not include the starting curly brace
@@ -68,7 +65,7 @@ public class SwitchCaseValidation {
             return true;
         }
         System.out.println("No closing parenthesis found for <var>!");
-        return false; // default return statement
+        return false;
     }
 
     public static boolean checkCaseWord(String input) {
@@ -85,7 +82,6 @@ public class SwitchCaseValidation {
         return caseChecker;
     }
 
-    // TODO: implement these methods
     // Method to check for correct case syntax and break statements
     public static boolean caseAndBreakChecker(String input) {
         if (checkCaseWord(input) == false) {
@@ -129,6 +125,7 @@ public class SwitchCaseValidation {
         return true;
     }
 
+//Method to check the presence of a default statement and the ending curly brace.
     public static boolean defaultAndEndingCurlyBraceChecker(String input) {
         String findDefault = "default:";
         int defaultFinder = (int) Pattern.compile(findDefault).matcher(input).results().count();
@@ -145,6 +142,7 @@ public class SwitchCaseValidation {
         try {
             for (int i = defaultOccurence; i < input.length(); i++) {
                 if (input.charAt(i) == '}') {
+                    System.out.println("Default code block found!");
                     return true;
                 }
             }
