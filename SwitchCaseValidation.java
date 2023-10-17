@@ -48,7 +48,8 @@ public class SwitchCaseValidation {
 
         if (!switchVariableFinder.isBlank()) {
             int closingParenthesisCounter = 0;
-            for (int i = 0; i < switchVariableFinder.length() - 1; i++) { // to not include the starting curly brace
+            for (int i = 0; i < switchVariableFinder.length() - 1; i++) { // to not include the
+                // starting curly brace
                 if (switchVariableFinder.charAt(i) == '{' || switchVariableFinder.charAt(i) == '}'
                         || switchVariableFinder.charAt(i) == '(') {
                     System.out.println("Illegal characters for <var>!");
@@ -85,6 +86,7 @@ public class SwitchCaseValidation {
     // Method to check for correct case syntax and break statements
     public static boolean caseAndBreakChecker(String input) {
         if (checkCaseWord(input) == false) {
+            System.out.println("Misspelled case keyword");
             return false;
         }
         String findCase = "case";
@@ -119,7 +121,7 @@ public class SwitchCaseValidation {
                 }
             }
         } catch (IndexOutOfBoundsException ie) {
-            System.out.println("There is no semicolon after break!");
+            System.out.println("There is no semicolon after case!");
             return false;
         }
         return true;
@@ -156,7 +158,8 @@ public class SwitchCaseValidation {
         String input = "switch(test){\ncase 'a': System.out.println(\"1\"); \n break;\n" +
                 "case 'b': System.out.println(\"2\"); \n break;\n" +
                 "case 'c': System.out.println(\"3\"); \n break;\n" +
-                "case 'd': System.out.println(\"4\"); \n break;\n}";
+                "case 'd': System.out.println(\"4\"); \n break;\n" +
+                "default: System.out.println(\"5\");}";
         System.out.println("Input: " + input);
         if (switchChecker(input))
             System.out.println("The input has the switch keyword");
