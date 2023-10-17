@@ -105,13 +105,15 @@ public class SwitchCaseValidation {
                 for (int y = caseOccurence; y < input.length(); y++) {
                     if (input.charAt(y) == ':') {
                         if (caseOccurence > breakOccurence) {
-                            System.out.println("WARNING: Case " + i + " has no break statement");
+                            System.out.println("WARNING: Case " + i + " has no break statement. " +
+                                    "The code will still run");
                             caseOccurence = input.indexOf("case", y);
                         } else if (caseOccurence < breakOccurence) {
                             caseOccurence = input.indexOf("case", y);
                             int breakDoubleCheck = input.indexOf("break;", caseOccurence);
                             if (breakDoubleCheck == breakOccurence) {
-                                System.out.println("WARNING: Case " + i + " has no break statement");
+                                System.out.println("WARNING: Case " + i + " has no break statement. " +
+                                        "The code will still run");
                             } else {
                                 breakOccurence = input.indexOf("break;", caseOccurence);
                             }
@@ -156,10 +158,9 @@ public class SwitchCaseValidation {
 
     public static void main(String[] args) {
         String input = "switch(test){\ncase 'a': System.out.println(\"1\"); \n break;\n" +
-                "case 'b': System.out.println(\"2\"); \n break;\n" +
+                "case 'b': System.out.println(\"2\"); \n \n" +
                 "case 'c': System.out.println(\"3\"); \n break;\n" +
-                "case 'd': System.out.println(\"4\"); \n break;\n" +
-                "default: System.out.println(\"5\");}";
+                "case 'd': System.out.println(\"4\"); \n break;\n}";
         System.out.println("Input: " + input);
         if (switchChecker(input))
             System.out.println("The input has the switch keyword");
