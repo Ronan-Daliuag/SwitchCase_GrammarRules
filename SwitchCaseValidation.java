@@ -63,6 +63,10 @@ public class SwitchCaseValidation {
                 System.out.println("Too many closing parenthesis");
                 return false;
             }
+            if (closingParenthesisCounter == 0) {
+                System.out.println("No closing parenthesis for <var>");
+                return false;
+            }
             return true;
         }
         System.out.println("No closing parenthesis found for <var>");
@@ -75,10 +79,8 @@ public class SwitchCaseValidation {
         for (int i = 0; i < input.length(); i++) {
             if (caseFinder.contains("break")) {
                 if (caseFinder.contains("case")) {
-                    System.out.println("Misspelled case keyword");
                     caseFinder = "";
                 } else if (caseFinder.contains("default")) {
-                    System.out.println("Misspelled default keyword");
                     caseFinder = "";
                 } else{
                     caseChecker = false;
@@ -117,7 +119,7 @@ public class SwitchCaseValidation {
         String semicolonChecker = "";
         for (int i = 0; i < input.length(); i++) {
             if (breakFinder.contains("break")) {
-                if (semicolonChecker.contains("case")) {
+                if (semicolonChecker.contains("case") || semicolonChecker.contains("default")) {
                     if (!semicolonChecker.contains(";")) {
                         System.out.println("There is no semicolon after break");
                         return false;
@@ -128,22 +130,26 @@ public class SwitchCaseValidation {
                     }
                 } else
                         semicolonChecker = semicolonChecker + input.charAt(i);
-            } else
+            }
+            else
                 breakFinder = breakFinder + input.charAt(i);
+
         }
         return breakChecker;
     }
     // Method to check for correct case syntax and break statements
     public static boolean caseAndBreakChecker(String input) {
         if (!checkCaseWord(input)) {
-            return false;
-        }
-        if (!checkBreakWord(input)) {
+            System.out.println("Misspelled case/default keyword");
             return false;
         }
         if (!checkBreakSemicolon(input)) {
             return false;
         }
+        if (!checkBreakWord(input)) {
+            return false;
+        }
+
         String findCase = "case";
         int numberOfCases = (int) Pattern.compile(findCase).matcher(input).results().count();
         int caseStart = 0;
@@ -212,11 +218,10 @@ public class SwitchCaseValidation {
     }
 
     public static void main(String[] args) {
-        String input = "switch(test){\ncase 'a': System.out.println(\"1\"); \n break;\n" +
+        String input = "switchtest){\ncase 'a': System.out.println(\"1\"); \n break;\n" +
                 "case 'b': System.out.println(\"2\"); \n break;\n" +
                 "case 'c': System.out.println(\"3\"); \n break;\n" +
-                "case 'd': System.out.println(\"4\"); \n break;\n" +
-                "default: System.out.println(\"5\"); \n break;\n}";
+                "case 'd': System.out.println(\"4\"); \n break;\n}";
         System.out.println("Input: \n" + input);
         if (switchChecker(input))
             System.out.println("The input has the switch keyword");
