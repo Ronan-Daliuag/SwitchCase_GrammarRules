@@ -11,7 +11,7 @@ public class SwitchCaseValidation {
             } else
                 switchFinder = switchFinder + input.charAt(i);
         }
-        System.out.println("Switch keyword not found!");
+        System.out.println("Switch keyword not found");
         return false;
     }
 
@@ -26,7 +26,7 @@ public class SwitchCaseValidation {
                 break;
             }
             if (input.charAt(i) == ')') {
-                System.out.println("No opening parenthesis found for <var>!");
+                System.out.println("No opening parenthesis found for <var>");
                 return false;
             }
         }
@@ -42,7 +42,7 @@ public class SwitchCaseValidation {
 
         // if the <var> is just whitespace or is null
         if (switchVariableFinder.charAt(0) == ')') {
-            System.out.println("No arguments found for switch!");
+            System.out.println("No arguments found for switch");
             return false;
         }
 
@@ -52,7 +52,7 @@ public class SwitchCaseValidation {
                 // starting curly brace
                 if (switchVariableFinder.charAt(i) == '{' || switchVariableFinder.charAt(i) == '}'
                         || switchVariableFinder.charAt(i) == '(') {
-                    System.out.println("Illegal characters for <var>!");
+                    System.out.println("Illegal characters for <var>");
                     return false;
                 }
                 if (switchVariableFinder.charAt(i) == ')') {
@@ -60,12 +60,12 @@ public class SwitchCaseValidation {
                 }
             }
             if (closingParenthesisCounter > 1) {
-                System.out.println("Too many closing parenthesis!");
+                System.out.println("Too many closing parenthesis");
                 return false;
             }
             return true;
         }
-        System.out.println("No closing parenthesis found for <var>!");
+        System.out.println("No closing parenthesis found for <var>");
         return false;
     }
 
@@ -83,10 +83,37 @@ public class SwitchCaseValidation {
         return caseChecker;
     }
 
+    public static boolean checkBreakWord(String input) {
+        boolean breakChecker = true;
+        String breakFinder = "";
+        String semicolonChecker = "";
+        for (int i = 0; i < input.length(); i++) {
+            if (breakFinder.contains("break")) {
+                if (semicolonChecker.contains("case")) {
+                    if (!semicolonChecker.contains(";")) {
+                        System.out.println("There is no semicolon after break");
+                        return false;
+                    }
+                    else {
+                        breakFinder = "";
+                        semicolonChecker = "";
+                    }
+                } else
+                        semicolonChecker = semicolonChecker + input.charAt(i);
+            } else
+                breakFinder = breakFinder + input.charAt(i);
+        }
+        return breakChecker;
+    }
+
+
     // Method to check for correct case syntax and break statements
     public static boolean caseAndBreakChecker(String input) {
-        if (checkCaseWord(input) == false) {
+        if (!checkCaseWord(input)) {
             System.out.println("Misspelled case keyword");
+            return false;
+        }
+        if (!checkBreakWord(input)) {
             return false;
         }
         String findCase = "case";
@@ -123,7 +150,7 @@ public class SwitchCaseValidation {
                 }
             }
         } catch (IndexOutOfBoundsException ie) {
-            System.out.println("There is no semicolon after case!");
+            System.out.println("There is no semicolon after case");
             return false;
         }
         return true;
@@ -146,22 +173,23 @@ public class SwitchCaseValidation {
         try {
             for (int i = defaultOccurence; i < input.length(); i++) {
                 if (input.charAt(i) == '}') {
-                    System.out.println("Default code block found!");
+                    System.out.println("Default code block found");
                     return true;
                 }
             }
         } catch (IndexOutOfBoundsException ie) {
-            System.out.println("Ending curly brace not found!");
+            System.out.println("Ending curly brace not found");
         }
         return false;
     }
 
     public static void main(String[] args) {
         String input = "switch(test){\ncase 'a': System.out.println(\"1\"); \n break;\n" +
-                "case 'b': System.out.println(\"2\"); \n \n" +
+                "case 'b': System.out.println(\"2\"); \n break;\n" +
                 "case 'c': System.out.println(\"3\"); \n break;\n" +
-                "case 'd': System.out.println(\"4\"); \n break;\n}";
-        System.out.println("Input: " + input);
+                "case 'd': System.out.println(\"4\"); \n break;\n" +
+                "default: System.out.println(\"5\"); \n}";
+        System.out.println("Input: \n" + input);
         if (switchChecker(input))
             System.out.println("The input has the switch keyword");
         else {
@@ -186,5 +214,6 @@ public class SwitchCaseValidation {
             System.out.println("The input is an invalid switch statement");
             System.exit(0);
         }
+        System.out.println("The input is a valid switch statement");
     }
 }
