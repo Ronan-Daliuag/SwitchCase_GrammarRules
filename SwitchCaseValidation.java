@@ -82,8 +82,30 @@ public class SwitchCaseValidation {
         }
         return caseChecker;
     }
-
     public static boolean checkBreakWord(String input) {
+        boolean breakChecker = true;
+        String breakSpellChecker = "";
+        int firstSemicolon = input.indexOf(';') + 1;
+        int i = firstSemicolon;
+        while (i < input.length()) {
+            if (breakSpellChecker.contains(";")) {
+                if (!breakSpellChecker.contains("break")) {
+                    System.out.println("Misspelled break word");
+                    return false;
+                }
+                else {
+                    i = input.indexOf(';', i) + 1;
+                    if (i == 0)
+                        break;
+                    breakSpellChecker = "";
+                }
+            } else
+                breakSpellChecker = breakSpellChecker + input.charAt(i);
+            i++;
+        }
+        return breakChecker;
+    }
+    public static boolean checkBreakSemicolon(String input) {
         boolean breakChecker = true;
         String breakFinder = "";
         String semicolonChecker = "";
@@ -105,8 +127,6 @@ public class SwitchCaseValidation {
         }
         return breakChecker;
     }
-
-
     // Method to check for correct case syntax and break statements
     public static boolean caseAndBreakChecker(String input) {
         if (!checkCaseWord(input)) {
@@ -114,6 +134,9 @@ public class SwitchCaseValidation {
             return false;
         }
         if (!checkBreakWord(input)) {
+            return false;
+        }
+        if (!checkBreakSemicolon(input)) {
             return false;
         }
         String findCase = "case";
@@ -155,10 +178,10 @@ public class SwitchCaseValidation {
         }
         return true;
     }
-
 //Method to check the presence of a default statement and the ending curly brace.
     public static boolean defaultAndEndingCurlyBraceChecker(String input) {
         String findDefault = "default:";
+        String defaultCodeBlock = "";
         int defaultFinder = (int) Pattern.compile(findDefault).matcher(input).results().count();
         if (defaultFinder == 0) {
             System.out.println("WARNING: The input does not have a default code block." +
