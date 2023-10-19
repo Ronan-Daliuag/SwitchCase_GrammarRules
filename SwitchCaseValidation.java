@@ -75,8 +75,14 @@ public class SwitchCaseValidation {
         for (int i = 0; i < input.length(); i++) {
             if (caseFinder.contains("break")) {
                 if (caseFinder.contains("case")) {
+                    System.out.println("Misspelled case keyword");
                     caseFinder = "";
-                } else caseChecker = false;
+                } else if (caseFinder.contains("default")) {
+                    System.out.println("Misspelled default keyword");
+                    caseFinder = "";
+                } else{
+                    caseChecker = false;
+                }
             } else
                 caseFinder = caseFinder + input.charAt(i);
         }
@@ -130,7 +136,6 @@ public class SwitchCaseValidation {
     // Method to check for correct case syntax and break statements
     public static boolean caseAndBreakChecker(String input) {
         if (!checkCaseWord(input)) {
-            System.out.println("Misspelled case keyword");
             return false;
         }
         if (!checkBreakWord(input)) {
@@ -211,7 +216,7 @@ public class SwitchCaseValidation {
                 "case 'b': System.out.println(\"2\"); \n break;\n" +
                 "case 'c': System.out.println(\"3\"); \n break;\n" +
                 "case 'd': System.out.println(\"4\"); \n break;\n" +
-                "default: System.out.println(\"5\"); \n}";
+                "default: System.out.println(\"5\"); \n break;\n}";
         System.out.println("Input: \n" + input);
         if (switchChecker(input))
             System.out.println("The input has the switch keyword");
