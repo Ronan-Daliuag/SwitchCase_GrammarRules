@@ -73,6 +73,7 @@ public class SwitchCaseValidation {
         return false;
     }
 
+//    Method to check the case keyword
     public static boolean checkCaseWord(String input) {
         boolean caseChecker = true;
         String caseFinder = "";
@@ -90,6 +91,7 @@ public class SwitchCaseValidation {
         }
         return caseChecker;
     }
+//    Method to check the break keyword
     public static boolean checkBreakWord(String input) {
         boolean breakChecker = true;
         String breakSpellChecker = "";
@@ -113,6 +115,7 @@ public class SwitchCaseValidation {
         }
         return breakChecker;
     }
+//    Method to check the break's semicolon
     public static boolean checkBreakSemicolon(String input) {
         boolean breakChecker = true;
         String breakFinder = "";
@@ -137,10 +140,40 @@ public class SwitchCaseValidation {
         }
         return breakChecker;
     }
+
+//    Method to check the case argument
+    public static boolean checkCaseArgument(String input) {
+        boolean caseChecker = true;
+        String caseFinder = "";
+        String caseArgument = "";
+        for (int i = 0; i < input.length(); i++) {
+            if (caseFinder.contains("case")) {
+                if(caseArgument.contains(":")){
+                    if(caseArgument.contains("<") || caseArgument.contains(">") || caseArgument.contains("=")){
+                        System.out.println("There an illegal character inside a case parameter");
+                        return false;
+                    }
+                    else {
+                        caseFinder = "";
+                        caseArgument = "";
+                    }
+                }
+                else {
+                    caseArgument = caseArgument + input.charAt(i);
+                }
+            } else
+                caseFinder = caseFinder + input.charAt(i);
+        }
+        return caseChecker;
+    }
+
     // Method to check for correct case syntax and break statements
     public static boolean caseAndBreakChecker(String input) {
         if (!checkCaseWord(input)) {
             System.out.println("Misspelled case/default keyword");
+            return false;
+        }
+        if (!checkCaseArgument(input)) {
             return false;
         }
         if (!checkBreakSemicolon(input)) {
@@ -218,7 +251,7 @@ public class SwitchCaseValidation {
     }
 
     public static void main(String[] args) {
-        String input = "switchtest){\ncase 'a': System.out.println(\"1\"); \n break;\n" +
+        String input = "switch(test){\ncase 'a': System.out.println(\"1\"); \n break;\n" +
                 "case 'b': System.out.println(\"2\"); \n break;\n" +
                 "case 'c': System.out.println(\"3\"); \n break;\n" +
                 "case 'd': System.out.println(\"4\"); \n break;\n}";
