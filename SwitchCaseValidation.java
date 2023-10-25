@@ -6,8 +6,14 @@ public class SwitchCaseValidation {
     public static boolean switchChecker(String input) {
         String switchFinder = "";
         for (int i = 0; i < input.length(); i++) {
-            if (switchFinder.equals("switch")) {
-                return true;
+            if (switchFinder.contains("(")){
+                if (switchFinder.contains("switch")) {
+                    return true;
+                }
+                else {
+                    System.out.println("Switch keyword not found");
+                    return false;
+                }
             } else
                 switchFinder = switchFinder + input.charAt(i);
         }
@@ -51,7 +57,8 @@ public class SwitchCaseValidation {
             for (int i = 0; i < switchVariableFinder.length() - 1; i++) { // to not include the
                 // starting curly brace
                 if (switchVariableFinder.charAt(i) == '{' || switchVariableFinder.charAt(i) == '}'
-                        || switchVariableFinder.charAt(i) == '(') {
+                        || switchVariableFinder.charAt(i) == '(' || switchVariableFinder.charAt(i) == '>' || switchVariableFinder.charAt(i) == '<'
+                        || switchVariableFinder.charAt(i) == '='|| switchVariableFinder.charAt(i) == '.')  {
                     System.out.println("Illegal characters for <var>");
                     return false;
                 }
@@ -149,7 +156,8 @@ public class SwitchCaseValidation {
         for (int i = 0; i < input.length(); i++) {
             if (caseFinder.contains("case")) {
                 if(caseArgument.contains(":")){
-                    if(caseArgument.contains("<") || caseArgument.contains(">") || caseArgument.contains("=")){
+                    if(caseArgument.contains("<") || caseArgument.contains(">") || caseArgument.contains("=") || caseArgument.contains("{")
+                            || caseArgument.contains("}") || caseArgument.contains("(") || caseArgument.contains(")") || caseArgument.contains(".")){
                         System.out.println("There an illegal character inside a case parameter");
                         return false;
                     }
