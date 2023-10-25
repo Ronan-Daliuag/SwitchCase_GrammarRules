@@ -84,16 +84,29 @@ public class SwitchCaseValidation {
     public static boolean checkCaseWord(String input) {
         boolean caseChecker = true;
         String caseFinder = "";
-        for (int i = 0; i < input.length(); i++) {
+        for (int i = 0; i < input.length() + 1; i++) {
             if (caseFinder.contains("break")) {
                 if (caseFinder.contains("case")) {
                     caseFinder = "";
                 } else if (caseFinder.contains("default")) {
                     caseFinder = "";
-                } else{
+                } else {
                     caseChecker = false;
                 }
-            } else
+            }
+            else if (caseFinder.contains("}")){
+                if (caseFinder.trim().length() == 1){
+                    break;
+                }
+                if (caseFinder.contains("case")) {
+                    caseFinder = "";
+                } else if (caseFinder.contains("default")) {
+                    caseFinder = "";
+                } else {
+                    caseChecker = false;
+                }
+            }
+            else
                 caseFinder = caseFinder + input.charAt(i);
         }
         return caseChecker;
@@ -106,7 +119,11 @@ public class SwitchCaseValidation {
         int i = firstSemicolon;
         while (i < input.length()) {
             if (breakSpellChecker.contains(";")) {
-                if (!breakSpellChecker.contains("break")) {
+                if (breakSpellChecker.contains("case")){
+                    i = input.indexOf(';', i) + 1;
+                    breakSpellChecker = "";
+                }
+                else if (!breakSpellChecker.contains("break")) {
                     System.out.println("Misspelled break word");
                     return false;
                 }
@@ -158,7 +175,7 @@ public class SwitchCaseValidation {
                 if(caseArgument.contains(":")){
                     if(caseArgument.contains("<") || caseArgument.contains(">") || caseArgument.contains("=") || caseArgument.contains("{")
                             || caseArgument.contains("}") || caseArgument.contains("(") || caseArgument.contains(")") || caseArgument.contains(".")){
-                        System.out.println("There an illegal character inside a case parameter");
+                        System.out.println("There is an illegal character inside a case parameter / No semicolon");
                         return false;
                     }
                     else {
@@ -233,7 +250,6 @@ public class SwitchCaseValidation {
 //Method to check the presence of a default statement and the ending curly brace.
     public static boolean defaultAndEndingCurlyBraceChecker(String input) {
         String findDefault = "default:";
-        String defaultCodeBlock = "";
         int defaultFinder = (int) Pattern.compile(findDefault).matcher(input).results().count();
         if (defaultFinder == 0) {
             System.out.println("WARNING: The input does not have a default code block." +
@@ -260,10 +276,11 @@ public class SwitchCaseValidation {
 
     public static void main(String[] args) {
         String input = "switch(test){\ncase 'a': System.out.println(\"1\"); \n break;\n" +
-                "case 'b': System.out.println(\"2\"); \n break;\n" +
-                "case 'c': System.out.println(\"3\"); \n break;\n" +
-                "case 'd': System.out.println(\"4\"); \n break;\n}";
-        System.out.println("Input: \n" + input);
+                "case 'a': System.out.println(\"2\"); \n break;\n" +
+                "case 'a': System.out.println(\"3\"); \n break;\n" +
+                "case 'a': System.out.println(\"4\"); \n break;\n" +
+                "default: System.out.println(\"5\"); \nbreak;\n}";
+        System.out.println("Input: " + input);
         if (switchChecker(input))
             System.out.println("The input has the switch keyword");
         else {
