@@ -84,31 +84,39 @@ public class SwitchCaseValidation {
     public static boolean checkCaseWord(String input) {
         boolean caseChecker = true;
         String caseFinder = "";
-        for (int i = 0; i < input.length() + 1; i++) {
-            if (caseFinder.contains("break")) {
-                if (caseFinder.contains("case")) {
-                    caseFinder = "";
-                } else if (caseFinder.contains("default")) {
-                    caseFinder = "";
-                } else {
-                    caseChecker = false;
+        try{
+            for (int i = 0; i < input.length() + 1; i++) {
+                if (caseFinder.contains("break")) {
+                    if (caseFinder.contains("case")) {
+                        caseFinder = "";
+                    } else if (caseFinder.contains("default")) {
+                        caseFinder = "";
+                    } else {
+                        System.out.println("Misspelled case/default keyword");
+                        return false;
+                    }
                 }
+                else if (caseFinder.contains("}")){
+                    if (caseFinder.trim().length() == 1){
+                        break;
+                    }
+                    if (caseFinder.contains("case")) {
+                        caseFinder = "";
+                    } else if (caseFinder.contains("default")) {
+                        caseFinder = "";
+                    } else {
+                        System.out.println("Misspelled case/default keyword");
+                        return false;
+                    }
+                }
+                else
+                    caseFinder = caseFinder + input.charAt(i);
             }
-            else if (caseFinder.contains("}")){
-                if (caseFinder.trim().length() == 1){
-                    break;
-                }
-                if (caseFinder.contains("case")) {
-                    caseFinder = "";
-                } else if (caseFinder.contains("default")) {
-                    caseFinder = "";
-                } else {
-                    caseChecker = false;
-                }
-            }
-            else
-                caseFinder = caseFinder + input.charAt(i);
+        } catch (IndexOutOfBoundsException ie) {
+            System.out.println("Ending curly brace not found");
+            return false;
         }
+
         return caseChecker;
     }
 //    Method to check the break keyword
@@ -195,7 +203,6 @@ public class SwitchCaseValidation {
     // Method to check for correct case syntax and break statements
     public static boolean caseAndBreakChecker(String input) {
         if (!checkCaseWord(input)) {
-            System.out.println("Misspelled case/default keyword");
             return false;
         }
         if (!checkCaseArgument(input)) {
